@@ -8,11 +8,23 @@ final class GitHubApiTests: XCTestCase {
             $0.method = .GET
         } response: {
             [
-                "a": "1",
-                "b": "2"
+                "user_organizations_url": "https://api.github.com/user/orgs",
+                "rate_limit_url": "https://api.github.com/rate_limit",
+                "repository_url": "https://api.github.com/repos/{owner}/{repo}"
             ]
         } task: { github in
             try await github()
+        }
+    }
+
+    func testMeta() async throws {
+        try await GHAssertApi {
+            $0.method = .GET
+            $0.path = "meta"
+        } response: {
+            try Fixtures.decode(Meta.self, at: "meta.json")
+        } task: { github in
+            try await github.meta()
         }
     }
 
@@ -22,8 +34,9 @@ final class GitHubApiTests: XCTestCase {
             $0.path = "emojis"
         } response: {
             [
-                "smile": "link1",
-                "sun": "link2"
+                "atom": "https://github.githubassets.com/images/icons/emoji/atom.png?v8",
+                "microbe": "https://github.githubassets.com/images/icons/emoji/unicode/1f9a0.png?v8",
+                "green_circle": "https://github.githubassets.com/images/icons/emoji/unicode/1f7e2.png?v8"
             ]
         } task: { github in
             try await github.emojis()

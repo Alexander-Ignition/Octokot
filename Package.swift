@@ -24,6 +24,9 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "OctokotTests",
-            dependencies: ["Octokot"]),
+            dependencies: ["Octokot"],
+            resources: [
+                .copy("Fixtures")
+            ]),
     ]
 )

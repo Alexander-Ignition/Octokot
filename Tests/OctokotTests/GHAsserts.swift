@@ -36,7 +36,7 @@ func GHAssertApi<T>(
     let client = GHClientMock()
     try await client.encode(response: response1)
 
-    var api = GitHubAPI()
+    let api = GitHubAPI()
     api.configuration.client = client
 
     let response2 = try await task(api)

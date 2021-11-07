@@ -3,7 +3,7 @@ public protocol GHClient: AnyObject {
     func execute(_ request: GHRequest) async throws -> GHResponse
 }
 
-public struct GHConfiguration {
+public final class GHConfiguration {
     /// Basic HTTP request.
     public var request: GHRequest = GHRequest()
 

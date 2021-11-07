@@ -28,10 +28,10 @@ extension GitHubAPI {
     ///         You must always query the API directly to get the latest list of IP addresses.
     /// - Returns: meta information about GitHub, including a list of GitHub's IP addresses.
     ///            For more information, see "About GitHub's IP addresses."
-    public func meta() async throws -> GHResponse {
+    public func meta() async throws -> Meta {
         try await execute {
             $0.url.appendPathComponent("meta")
-        }
+        }.decode()
     }
 }
 
