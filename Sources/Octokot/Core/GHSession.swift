@@ -19,7 +19,10 @@ public final class GHSession: GHClient {
 
     public func execute(_ request: GHRequest) async throws -> GHResponse {
         let urlRequest = request.makeRequest()
-        let (data, response) = try await urlSession.data(for: urlRequest, delegate: nil)
-        return try GHResponse(response: response, data: data).validate()
+        let (data, urlResponse) = try await urlSession.data(for: urlRequest, delegate: nil)
+        let httpResponse = urlResponse as? HTTPURLResponse
+        let status = httpResponse?.statusCode ?? 200
+        let response = GHResponse(status: status, data: data)
+        return try response.validate()
     }
 }

@@ -1,30 +1,17 @@
 import Foundation
 
 public struct GHResponse: Equatable {
-    public let data: Data
+    public var status: Int
+    public var data: Data
 
-    public let response: URLResponse?
-
-    public var httpResponse: HTTPURLResponse? { response as? HTTPURLResponse }
-
-    public var statusCode: Int { httpResponse?.statusCode ?? 0 }
-
-    public init(response: URLResponse?, data: Data?) {
-        self.response = response
-        self.data = data ?? Data()
+    public init(status: Int, data: Data) {
+        self.status = status
+        self.data = data
     }
 
     /// UTF8 string representation of body.
     public var string: String {
         String(decoding: data, as: UTF8.self)
-    }
-
-    func value(forHTTPHeaderField field: String) -> String? {
-        if #available(macOS 10.15, *) {
-            return httpResponse?.value(forHTTPHeaderField: field)
-        } else {
-            return httpResponse?.allHeaderFields[field] as? String
-        }
     }
 
     func validate() throws -> GHResponse {

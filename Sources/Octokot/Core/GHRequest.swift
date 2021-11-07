@@ -35,6 +35,15 @@ public struct GHRequest: Equatable {
         self.headers = headers
         self.body = body
     }
+
+    public var path: String {
+        get {
+            url.path
+        }
+        set {
+            url.appendPathComponent(newValue)
+        }
+    }
 }
 
 // MARK: - Headers

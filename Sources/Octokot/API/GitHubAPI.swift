@@ -43,7 +43,7 @@ extension GitHubAPI {
     ///     GET /emojis
     ///
     /// Lists all the emojis available to use on GitHub.
-    public func emojis() async throws -> [String: URL] {
+    public func emojis() async throws -> [String: String] {
         try await execute {
             $0.url.appendPathComponent("emojis")
         }.decode()

@@ -7,10 +7,12 @@ final class GHRequestTests: XCTestCase {
     }
 
     func testInitWithDefaultsProperties() {
-        let request = GHRequest()
-        XCTAssertEqual(request.method, .GET)
-        XCTAssertEqual(request.url, URL(string: "https://api.github.com/")!)
-        XCTAssertEqual(request.headers, [:])
-        XCTAssertNil(request.body)
+        let actual = GHRequest()
+        let expected = GHRequest(
+            method: .GET,
+            url: URL(string: "https://api.github.com/")!,
+            headers: [:],
+            body: nil)
+        GHAssertEqual(actual, expected)
     }
 }
