@@ -15,8 +15,13 @@ public struct GHResponse: Equatable {
     }
 
     func validate() throws -> GHResponse {
-        // TODO: check http code and body
-        return self
+        if status == 200 {
+            return self
+        }
+        if let error = try? decode(GHError.self) {
+            throw error
+        }
+        throw GHError.http(status: status)
     }
 }
 
@@ -33,7 +38,7 @@ extension GHResponse {
         return decoder
     }()
 
-    public func decode<T>() throws -> T where T: Decodable {
+    public func decode<T>(_ type: T.Type = T.self) throws -> T where T: Decodable {
         return try Self.decoder.decode(T.self, from: data)
     }
 }
