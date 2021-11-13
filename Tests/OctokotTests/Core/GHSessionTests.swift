@@ -3,7 +3,7 @@ import Octokot
 
 final class GHSessionTests: XCTestCase {
     func testShared() throws {
-        let urlSession = GHSession.shared.urlSession
+        let urlSession = GHSession.shared.session
         XCTAssertEqual(urlSession.sessionDescription, "GitHub")
 
         let configuration = urlSession.configuration

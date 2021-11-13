@@ -8,6 +8,13 @@ public struct GitHubAPI: API {
     }
 }
 
+extension GitHubAPI {
+    /// The Users API allows to get public and private information about the authenticated user.
+    public var user: AuthenticatedUserApi {
+        AuthenticatedUserApi(configuration: configuration)
+    }
+}
+
 // MARK: - Meta
 
 extension GitHubAPI {
@@ -17,7 +24,7 @@ extension GitHubAPI {
     ///
     /// Get Hypermedia links to resources accessible in GitHub's REST API.
     public func callAsFunction() async throws -> [String: String] {
-        try await configuration.client.execute(configuration.request).decode()
+        try await client.execute(configuration.request).decode()
     }
 
     /// Get GitHub meta information.
