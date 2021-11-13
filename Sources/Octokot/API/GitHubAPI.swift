@@ -1,6 +1,6 @@
 import Foundation
 
-public struct GitHubAPI: API {
+public struct GitHubAPI: Api {
     public var configuration: GHConfiguration
 
     public init(configuration: GHConfiguration = GHConfiguration()) {

@@ -1,8 +1,8 @@
-protocol API {
+protocol Api {
     var configuration: GHConfiguration { get }
 }
 
-extension API {
+extension Api {
     var client: GHClient { configuration.client }
 
     func execute(
