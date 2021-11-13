@@ -48,4 +48,10 @@ extension GitHubAPI {
             $0.url.appendPathComponent("emojis")
         }.decode()
     }
+
+    public func zen() async throws -> String {
+        try await execute {
+            $0.url.appendPathComponent("zen")
+        }.string
+    }
 }
