@@ -13,6 +13,11 @@ extension GitHubAPI {
     public var user: AuthenticatedUserApi {
         AuthenticatedUserApi(configuration: configuration)
     }
+
+    /// The Repos API allows to create, manage and control the workflow of public and private GitHub repositories.
+    public var repos: ReposApi {
+        ReposApi(configuration: configuration)
+    }
 }
 
 // MARK: - Meta
