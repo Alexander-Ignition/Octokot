@@ -5,7 +5,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParseNext() {
         let string = #"<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=16>; rel="next""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertEqual(links.next?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=16")
         XCTAssertNil(links.prev)
         XCTAssertNil(links.first)
@@ -14,7 +14,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParsePrev() {
         let string = #"<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=103>; rel="prev""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertNil(links.next)
         XCTAssertEqual(links.prev?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=103")
         XCTAssertNil(links.first)
@@ -23,7 +23,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParseFirst() {
         let string = #"<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1>; rel="first""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertNil(links.next)
         XCTAssertNil(links.prev)
         XCTAssertEqual(links.first?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1")
@@ -32,7 +32,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParseLast() {
         let string = #"<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=134>; rel="last""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertNil(links.next)
         XCTAssertNil(links.prev)
         XCTAssertNil(links.first)
@@ -46,7 +46,7 @@ final class PaginationLinksTests: XCTestCase {
            <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1>; rel="first",
            <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13>; rel="prev"
         """
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertEqual(links.next?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15")
         XCTAssertEqual(links.last?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34")
         XCTAssertEqual(links.first?.absoluteString, "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1")
@@ -54,7 +54,7 @@ final class PaginationLinksTests: XCTestCase {
     }
 
     func testParseEmptyString() {
-        let links = GHPaginationLinks(string: "")
+        let links = PaginationLinks(string: "")
         XCTAssertNil(links.next)
         XCTAssertNil(links.prev)
         XCTAssertNil(links.first)
@@ -63,7 +63,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParseInvalidURL() {
         let string = #"<https:// api.github.com/search/code?q=addClass+user%3Amozilla&page=134>; rel="next""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertNil(links.next)
         XCTAssertNil(links.prev)
         XCTAssertNil(links.first)
@@ -72,7 +72,7 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParseUnknownRel() {
         let string = #"<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=134>; rel="favorite""#
-        let links = GHPaginationLinks(string: string)
+        let links = PaginationLinks(string: string)
         XCTAssertNil(links.next)
         XCTAssertNil(links.prev)
         XCTAssertNil(links.first)

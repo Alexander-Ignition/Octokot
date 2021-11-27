@@ -1,13 +1,13 @@
 import Foundation
 
-public struct GHPaginationLinks {
+public struct PaginationLinks {
     public var next: URL?
     public var last: URL?
     public var first: URL?
     public var prev: URL?
 }
 
-extension GHPaginationLinks {
+extension PaginationLinks {
     private static let regexp: NSRegularExpression? = {
         do {
             let pattern = #"<(?<link>.+)\>;\s+rel="(?<rel>next|last|first|prev)""#
@@ -21,7 +21,7 @@ extension GHPaginationLinks {
     init(string: String) {
         let text = string as NSString
         let range = NSRange(location: 0, length: text.length)
-        let matches = GHPaginationLinks.regexp?.matches(in: string, range: range) ?? []
+        let matches = PaginationLinks.regexp?.matches(in: string, range: range) ?? []
 
         for match in matches {
             let rel = text.substring(with: match.range(withName: "rel"))
