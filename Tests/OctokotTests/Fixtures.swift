@@ -1,5 +1,6 @@
 import Foundation
 @testable import Octokot
+import XCTest
 
 enum Fixtures {
     static let bundle = Bundle.module
@@ -15,7 +16,7 @@ enum Fixtures {
             throw URLError(.badURL, userInfo: [NSLocalizedDescriptionKey: "Resource not found: \(path)"])
         }
         let data = try Data(contentsOf: url)
-        let value = try decoder.decode(T.self, from: data)
+        let value = try XCTUnwrap(try decoder.decode(T.self, from: data))
         return value
     }
 }
