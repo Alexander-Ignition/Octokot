@@ -1,19 +1,26 @@
 import Foundation
 
-/// GitHub REST API client.
-public protocol GHClient: AnyObject {
-    func execute(_ request: GHRequest) async throws -> GHResponse
-}
+public struct GHConfiguration {
 
-public final class GHConfiguration {
-    /// Basic HTTP request.
-    public var request: GHRequest = GHRequest()
+    public static let `default` = GHConfiguration(
+        url: URL(string: "https://api.github.com/")!,
+        headers: [
+            "Accept": "application/vnd.github.v3+json"
+        ])
 
-    /// HTTP client.
-    public var client: GHClient
+    /// Base  URL.
+    public var url: URL
 
-    /// A new default configuration.
-    public init(client: GHClient = GHSession.shared) {
-        self.client = client
+    /// HTTP request method.
+    public var headers: [String: String]
+
+    /// Base HTTP request.
+    public var request: GHRequest {
+        GHRequest(url: url, headers: headers)
+    }
+
+    public init(url: URL, headers: [String : String] = [:]) {
+        self.url = url
+        self.headers = headers
     }
 }

@@ -1,27 +1,18 @@
 import Foundation
 
 public final class GHSession: GHClient {
-    public static let shared = GHSession(configuration: configuration)
-
-    /// Default session configuration.
-    public static var configuration: URLSessionConfiguration {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = [
-            "Accept": "application/vnd.github.v3+json"
-        ]
-        return configuration
-    }
-
     public let session: URLSession
+    public let configuration: GHConfiguration
 
-    public init(session: URLSession) {
+    public init(session: URLSession, configuration: GHConfiguration) {
         self.session = session
+        self.configuration = configuration
     }
 
-    public convenience init(configuration: URLSessionConfiguration) {
-        let session = URLSession(configuration: configuration)
+    public convenience init(configuration: GHConfiguration) {
+        let session = URLSession(configuration: .default)
         session.sessionDescription = "GitHub"
-        self.init(session: session)
+        self.init(session: session, configuration: configuration)
     }
 
     public func execute(_ request: GHRequest) async throws -> GHResponse {

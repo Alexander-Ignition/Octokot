@@ -2,15 +2,12 @@ import XCTest
 import Octokot
 
 final class GHRequestTests: XCTestCase {
-    func testDefaultUrl() {
-        XCTAssertEqual(GHRequest.url, URL(string: "https://api.github.com/")!)
-    }
-
     func testInitWithDefaultsProperties() {
-        let actual = GHRequest()
+        let url = URL(string: "/")!
+        let actual = GHRequest(url: url)
         let expected = GHRequest(
             method: .GET,
-            url: URL(string: "https://api.github.com/")!,
+            url: url,
             headers: [:],
             body: nil)
         GHAssertEqual(actual, expected)

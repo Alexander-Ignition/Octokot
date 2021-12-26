@@ -1,4 +1,4 @@
-import Octokot
+@testable import Octokot
 import XCTest
 
 func GHAssertEqual(
@@ -20,24 +20,15 @@ func GHAssertApi<T>(
     line: UInt = #line,
     task: (GitHubAPI) async throws -> T
 ) async throws where T: Codable, T: Equatable {
-    var expectedRequest = GHRequest()
-    try request(&expectedRequest)
-    try await GHAssertApi(expectedRequest, try response(), task: task)
-}
-
-func GHAssertApi<T>(
-    _ request1: GHRequest,
-    _ response1: T,
-    file: StaticString = #filePath,
-    line: UInt = #line,
-    task: (GitHubAPI) async throws -> T
-) async throws where T: Codable, T: Equatable {
 
     let client = GHClientMock()
+    var request1 = client.configuration.request
+    try request(&request1)
+
+    let response1 = try response()
     try await client.encode(response: response1)
 
-    let api = GitHubAPI()
-    api.configuration.client = client
+    let api = GitHubAPI(client: client)
 
     let response2 = try await task(api)
     XCTAssertEqual(response2, response1, file: file, line: line)
@@ -50,9 +41,10 @@ func GHAssertApi<T>(
 }
 
 actor GHClientMock: GHClient {
-    private(set) var requests: [GHRequest] = []
+    let configuration: GHConfiguration = .default
 
-    var result = Result<GHResponse, Error>.failure(URLError(.notConnectedToInternet))
+    private(set) var requests: [GHRequest] = []
+    private var result = Result<GHResponse, Error>.failure(URLError(.notConnectedToInternet))
 
     func execute(_ request: GHRequest) async throws -> GHResponse {
         self.requests.append(request)

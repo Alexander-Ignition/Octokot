@@ -2,8 +2,6 @@ import Foundation
 
 /// GitHub HTTP request.
 public struct GHRequest: Equatable {
-    public static let url = URL(string: "https://api.github.com/")!
-
     /// HTTP request method.
     public enum Method: String {
         case GET
@@ -26,7 +24,7 @@ public struct GHRequest: Equatable {
 
     public init(
         method: Method = .GET,
-        url: URL = GHRequest.url,
+        url: URL,
         headers: [String: String] = [:],
         body: Data? = nil
     ) {

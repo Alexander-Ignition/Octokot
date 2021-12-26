@@ -1,14 +1,12 @@
 protocol Api {
-    var configuration: GHConfiguration { get }
+    var client: GHClient { get }
 }
 
 extension Api {
-    var client: GHClient { configuration.client }
-
     func execute(
         _ build: (inout GHRequest) throws -> Void
     ) async throws -> GHResponse {
-        var request = self.configuration.request
+        var request = self.client.configuration.request
         try build(&request)
         return try await client.execute(request)
     }
