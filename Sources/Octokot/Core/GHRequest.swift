@@ -61,17 +61,14 @@ extension GHRequest {
 // MARK: - Encoding
 
 extension GHRequest {
-    enum Encoders {
-        static let query = GHQueryEncoder()
-        static let json = JSONEncoder()
-    }
 
-    public mutating func encode<T>(query value: T) throws where T: Encodable {
-        try Encoders.query.encode(value, to: &url)
+    public mutating func encode(queryItems: [URLQueryItem]) throws {
+        try url.appendQueryItems(queryItems)
     }
 
     public mutating func encode<T>(body value: T) throws where T: Encodable {
-        body = try Encoders.json.encode(value)
+        let encoder = JSONEncoder()
+        body = try encoder.encode(value)
     }
 }
 
@@ -85,5 +82,32 @@ extension GHRequest {
         headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         request.httpBody = body
         return request
+    }
+}
+
+// MARK: - URL + URLQueryItem
+
+extension URL {
+    fileprivate mutating func appendQueryItems(_ queryItems: [URLQueryItem]) throws {
+        guard !queryItems.isEmpty else {
+            return
+        }
+        self = try self.appendingQuery(queryItems: queryItems)
+    }
+
+    private func appendingQuery(queryItems: [URLQueryItem]) throws -> URL {
+        guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
+            throw URLError(.badURL)
+        }
+        if var items = components.queryItems {
+            items.append(contentsOf: queryItems)
+            components.queryItems = items
+        } else {
+            components.queryItems = queryItems
+        }
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+        return url
     }
 }
