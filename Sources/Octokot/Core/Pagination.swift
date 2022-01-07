@@ -46,6 +46,30 @@ extension Pagination {
     }
 }
 
+// MARK: - Pagination + AsyncSequence
+
+extension Pagination: AsyncSequence {
+    public typealias Element = Pagination<Item>
+
+    public struct AsyncIterator: AsyncIteratorProtocol {
+        var pagination: Pagination<Item>?
+        var isStarted = false
+
+        public mutating func next() async throws -> Pagination<Item>? {
+            if isStarted {
+                pagination = try await pagination?.next
+            } else {
+                isStarted = true
+            }
+            return pagination
+        }
+    }
+
+    public func makeAsyncIterator() -> AsyncIterator {
+        AsyncIterator(pagination: self)
+    }
+}
+
 // MARK: - Api + Pagination
 
 extension Api {
