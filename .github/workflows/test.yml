@@ -26,31 +26,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: make test-macos
-        shell: bash
   iOS:
     name: Test iOS
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - run: make test-ios
-        shell: bash
   tvOS:
     name: Test tvOS
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - run: make test-tvos
-        shell: bash
   watchOS:
-    name: Test tvOS
+    name: Test watchOS
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - run: make test-watchos
-        shell: bash
   SPM:
     name: Test with SPM
     runs-on: macOS-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v2
