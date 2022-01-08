@@ -1,0 +1,57 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+    paths:
+      - 'Source/**'
+      - 'Tests/**'
+      - '.github/workflows/**'
+      - 'Package.swift'
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - 'Source/**'
+      - 'Tests/**'
+      - '.github/workflows/**'
+      - 'Package.swift'
+
+jobs:
+  # macOS:
+  #   name: Test macOS
+  #   runs-on: macOS-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: make test-macos
+  iOS:
+    name: Test iOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-ios
+  tvOS:
+    name: Test tvOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-tvos
+  watchOS:
+    name: Test watchOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-watchos
+  # SPM:
+  #   name: Test with SPM
+  #   runs-on: macOS-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Install xcaudit
+  #       uses: Alexander-Ignition/XCAudit@main
+  #     - name: Build and test
+  #       run: swift test --enable-code-coverage 2>&1 | xcaudit
+  #       shell: bash
