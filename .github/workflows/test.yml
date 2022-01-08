@@ -20,12 +20,12 @@ on:
       - 'Package.swift'
 
 jobs:
-  macOS:
-    name: Test macOS
-    runs-on: macOS-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: make test-macos
+  # macOS:
+  #   name: Test macOS
+  #   runs-on: macOS-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: make test-macos
   iOS:
     name: Test iOS
     runs-on: macOS-latest
@@ -44,16 +44,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: make test-watchos
-  SPM:
-    name: Test with SPM
-    runs-on: macOS-latest
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install xcaudit
-        uses: Alexander-Ignition/XCAudit@main
-      - name: Build and test
-        run: swift test --enable-code-coverage 2>&1 | xcaudit
-        shell: bash
+  # SPM:
+  #   name: Test with SPM
+  #   runs-on: macOS-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Install xcaudit
+  #       uses: Alexander-Ignition/XCAudit@main
+  #     - name: Build and test
+  #       run: swift test --enable-code-coverage 2>&1 | xcaudit
+  #       shell: bash
