@@ -1,0 +1,43 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  macOS:
+    name: Test macOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-macos
+  iOS:
+    name: Test iOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-ios
+  tvOS:
+    name: Test tvOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-tvos
+  watchOS:
+    name: Test tvOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-watchos
+  SPM:
+    name: Test with SPM
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Alexander-Ignition/XCAudit@main
+      - run: swift test --enable-code-coverage 2>&1 | xcaudit
