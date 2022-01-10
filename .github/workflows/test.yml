@@ -20,12 +20,12 @@ on:
       - 'Package.swift'
 
 jobs:
-  # macOS:
-  #   name: Test macOS
-  #   runs-on: macOS-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: make test-macos
+  macOS:
+    name: Test macOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test-macos
   iOS:
     name: Test iOS
     runs-on: macOS-latest
