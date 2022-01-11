@@ -17,7 +17,7 @@ public final class GHSession: GHClient {
 
     public func execute(_ request: GHRequest) async throws -> GHResponse {
         let urlRequest = request.makeRequest()
-        let (data, urlResponse) = try await session.data(for: urlRequest, delegate: nil)
+        let (data, urlResponse) = try await session.backport.data(for: urlRequest)
         let response = GHResponse(urlResponse: urlResponse, data: data)
         return try response.validate()
     }
