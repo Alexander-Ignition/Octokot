@@ -44,20 +44,3 @@ extension GHResponse {
         return try Self.decoder.decode(T.self, from: data)
     }
 }
-
-// MARK: - URLResponse
-
-extension GHResponse {
-    init(urlResponse: URLResponse, data: Data) {
-        let httpResponse = urlResponse as? HTTPURLResponse
-        let status = httpResponse?.statusCode ?? 200
-
-        let allHeaderFields = httpResponse?.allHeaderFields ?? [:]
-        var headers: [String: String] = [:]
-        headers.reserveCapacity(allHeaderFields.count)
-        httpResponse?.allHeaderFields.forEach { (key: AnyHashable, value: Any) in
-            headers[String(describing: key)] = String(describing: value)
-        }
-        self.init(status: status, headers: headers, data: data)
-    }
-}

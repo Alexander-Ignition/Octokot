@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(FoundationNetwork)
+import FoundationNetwork
+#endif
+
 public final class GHSession: GHClient {
     public let session: URLSession
     public let configuration: GHConfiguration
@@ -20,5 +24,67 @@ public final class GHSession: GHClient {
         let (data, urlResponse) = try await session.backport.data(for: urlRequest)
         let response = GHResponse(urlResponse: urlResponse, data: data)
         return try response.validate()
+    }
+}
+
+// MARK: - URLSession + Backport
+
+extension URLSession {
+    fileprivate var backport: GHBackport { GHBackport(session: self) }
+
+    fileprivate struct GHBackport {
+        let session: URLSession
+
+        func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+            if #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) {
+                return try await session.data(for: request, delegate: nil)
+            } else {
+                return try await withCheckedThrowingContinuation { continuation in
+                    let task = session.dataTask(with: request) { data, response, error in
+                        switch (response, error) {
+                        case (_, let error?):
+                            continuation.resume(throwing: error)
+                        case (.none, _):
+                            let message = "Missing URLResponse"
+                            let error = URLError(.unknown, userInfo: [NSLocalizedDescriptionKey: message])
+                            continuation.resume(throwing: error)
+                        case (let response?, _):
+                            let body = data ?? Data()
+                            continuation.resume(returning: (body, response))
+                        }
+                    }
+                    task.resume()
+                }
+            }
+        }
+    }
+}
+
+// MARK: - GHRequest + URLRequest
+
+extension GHRequest {
+    func makeRequest() -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
+        request.httpBody = body
+        return request
+    }
+}
+
+// MARK: - GHResponse + URLResponse
+
+extension GHResponse {
+    fileprivate init(urlResponse: URLResponse, data: Data) {
+        let httpResponse = urlResponse as? HTTPURLResponse
+        let status = httpResponse?.statusCode ?? 200
+
+        let allHeaderFields = httpResponse?.allHeaderFields ?? [:]
+        var headers: [String: String] = [:]
+        headers.reserveCapacity(allHeaderFields.count)
+        httpResponse?.allHeaderFields.forEach { (key: AnyHashable, value: Any) in
+            headers[String(describing: key)] = String(describing: value)
+        }
+        self.init(status: status, headers: headers, data: data)
     }
 }

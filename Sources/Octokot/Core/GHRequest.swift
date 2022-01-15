@@ -72,19 +72,6 @@ extension GHRequest {
     }
 }
 
-// MARK: - GHRequest + URLRequest
-
-extension GHRequest {
-
-    func makeRequest() -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
-        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
-        request.httpBody = body
-        return request
-    }
-}
-
 // MARK: - URL + URLQueryItem
 
 extension URL {
