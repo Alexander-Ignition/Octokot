@@ -52,6 +52,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: make test-watchos
+  Linux:
+    name: Test Linux
+    runs-on: ubuntu-20.04
+    container:
+      image: swift:5.5.1-focal
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test catbird app
+        run: swift test
   # SPM:
   #   name: Test with SPM
   #   runs-on: macOS-latest
