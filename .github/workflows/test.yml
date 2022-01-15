@@ -52,6 +52,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: make test-watchos
+  Linux:
+    name: Test Linux
+    runs-on: ubuntu-20.04
+    container:
+      image: swift:5.5.2-focal
+    steps:
+      - uses: actions/checkout@v2
+      - run: swift test
   # SPM:
   #   name: Test with SPM
   #   runs-on: macOS-latest
