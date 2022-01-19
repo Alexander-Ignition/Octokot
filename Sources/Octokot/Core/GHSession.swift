@@ -21,49 +21,39 @@ public final class GHSession: GHClient {
 
     public func execute(_ request: GHRequest) async throws -> GHResponse {
         let urlRequest = request.makeRequest()
-        let (data, urlResponse) = try await session.backport.data(for: urlRequest)
+        let (data, urlResponse) = try await dataResponse(for: urlRequest)
         let response = GHResponse(urlResponse: urlResponse, data: data)
         return try response.validate()
     }
-}
 
-// MARK: - URLSession + Backport
-
-extension URLSession {
-    fileprivate var backport: GHBackport { GHBackport(session: self) }
-
-    fileprivate struct GHBackport {
-        let session: URLSession
-
-        func data(for request: URLRequest) async throws -> (Data, URLResponse) {
-            #if os(Linux)
-            return try await _data(for: request)
-            #else
-            if #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) {
-                return try await session.data(for: request, delegate: nil)
-            } else {
-                return try await _data(for: request)
-            }
-            #endif
+    private func dataResponse(for request: URLRequest) async throws -> (Data, URLResponse) {
+        #if os(Linux)
+        return try await data(for: request)
+        #else
+        if #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) {
+            return try await session.data(for: request, delegate: nil)
+        } else {
+            return try await data(for: request)
         }
+        #endif
+    }
 
-        private func _data(for request: URLRequest) async throws -> (Data, URLResponse) {
-            try await withCheckedThrowingContinuation { continuation in
-                let task = session.dataTask(with: request) { data, response, error in
-                    switch (response, error) {
-                    case (_, let error?):
-                        continuation.resume(throwing: error)
-                    case (.none, _):
-                        let message = "Missing URLResponse"
-                        let error = URLError(.unknown, userInfo: [NSLocalizedDescriptionKey: message])
-                        continuation.resume(throwing: error)
-                    case (let response?, _):
-                        let body = data ?? Data()
-                        continuation.resume(returning: (body, response))
-                    }
+    private func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        try await withCheckedThrowingContinuation { continuation in
+            let task = session.dataTask(with: request) { data, response, error in
+                switch (response, error) {
+                case (_, let error?):
+                    continuation.resume(throwing: error)
+                case (.none, _):
+                    let message = "Missing URLResponse"
+                    let error = URLError(.unknown, userInfo: [NSLocalizedDescriptionKey: message])
+                    continuation.resume(throwing: error)
+                case (let response?, _):
+                    let body = data ?? Data()
+                    continuation.resume(returning: (body, response))
                 }
-                task.resume()
             }
+            task.resume()
         }
     }
 }
