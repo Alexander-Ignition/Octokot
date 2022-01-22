@@ -1,7 +1,7 @@
 import Foundation
 
 /// GitHub HTTP request.
-public struct GHRequest: Equatable {
+public struct GHRequest: Hashable {
     /// HTTP request method.
     public enum Method: String {
         case GET

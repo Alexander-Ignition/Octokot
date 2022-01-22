@@ -11,7 +11,7 @@ final class GHRequestTests: XCTestCase {
             url: url,
             headers: [:],
             body: nil)
-        GHAssertEqual(actual, expected)
+        assertEqual(actual, expected)
     }
 
     func testPath() {

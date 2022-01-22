@@ -3,14 +3,14 @@ import Octokot
 
 final class AuthenticatedUserApiTests: XCTestCase {
 
-    func testUser() async throws {
-        try await GHAssertApi {
+    func testUser() async {
+        await assertApi { github in
+            try await github.user()
+        } request: {
             $0.method = .GET
             $0.path = "user"
         } response: {
-            try Fixtures.decode(User.self, at: "user/get.json")
-        } task: { github in
-            try await github.user()
+            try Fixture("user/get.json")
         }
     }
 }
