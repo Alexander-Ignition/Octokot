@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PaginationLinks {
+public struct PaginationLinks: Equatable {
     public var next: URL?
     public var last: URL?
     public var first: URL?
@@ -10,7 +10,7 @@ public struct PaginationLinks {
 extension PaginationLinks {
     private static let regexp: NSRegularExpression? = {
         do {
-            let pattern = #"<(?<link>.+)\>;\s+rel="(?<rel>next|last|first|prev)""#
+            let pattern = #"<(?<link>\S+)\>;\s+rel="(?<rel>next|last|first|prev)""#
             return try NSRegularExpression(pattern: pattern)
         } catch {
             assertionFailure("\(error)")

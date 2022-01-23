@@ -41,9 +41,9 @@ final class PaginationLinksTests: XCTestCase {
 
     func testParse() {
         let string = """
-         <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15>; rel="next",
-           <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34>; rel="last",
-           <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1>; rel="first",
+         <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15>; rel="next", \
+           <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34>; rel="last", \
+           <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1>; rel="first", \
            <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13>; rel="prev"
         """
         let links = PaginationLinks(string: string)
