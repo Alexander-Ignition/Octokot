@@ -22,10 +22,8 @@ final actor ClientMock: GHClient {
     func execute(_ request: GHRequest) async throws -> GHResponse {
         requestsCount += 1
         guard let result = results[request] else {
-            throw URLError(.unknown, userInfo: [
-                NSLocalizedDescriptionKey: "Response not found",
-                NSURLErrorKey: request.url
-            ])
+            let message = "Response not found \(request.url.absoluteString)"
+            throw URLError(.unknown, userInfo: [NSLocalizedDescriptionKey: message])
         }
         return try result.get()
     }
