@@ -14,7 +14,7 @@ public struct AuthenticatedUserApi: Api {
     /// - Returns: the authenticated user.
     public func callAsFunction() async throws -> User {
         try await execute {
-            $0.url.appendPathComponent("user")
+            $0.path = "/user"
         }.decode()
     }
 }

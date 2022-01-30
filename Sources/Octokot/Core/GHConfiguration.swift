@@ -3,7 +3,7 @@ import Foundation
 public struct GHConfiguration {
 
     public static let `default` = GHConfiguration(
-        url: URL(string: "https://api.github.com/")!,
+        url: URL(string: "https://api.github.com")!,
         headers: [
             "Accept": "application/vnd.github.v3+json"
         ])

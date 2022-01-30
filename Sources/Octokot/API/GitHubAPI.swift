@@ -46,7 +46,7 @@ extension GitHubAPI {
     ///            For more information, see "About GitHub's IP addresses."
     public func meta() async throws -> Meta {
         try await execute {
-            $0.url.appendPathComponent("meta")
+            $0.path = "/meta"
         }.decode()
     }
 }
@@ -61,13 +61,13 @@ extension GitHubAPI {
     /// Lists all the emojis available to use on GitHub.
     public func emojis() async throws -> [String: String] {
         try await execute {
-            $0.url.appendPathComponent("emojis")
+            $0.path = "/emojis"
         }.decode()
     }
 
     public func zen() async throws -> String {
         try await execute {
-            $0.url.appendPathComponent("zen")
+            $0.path = "/zen"
         }.string
     }
 }

@@ -8,7 +8,7 @@ final class RepoApiTests: XCTestCase {
             try await github.repos["octocat"]["hello-world"]()
         } request: {
             $0.method = .GET
-            $0.path = "repos/octocat/hello-world"
+            $0.path = "/repos/octocat/hello-world"
         } response: {
             try Fixture("repos/octocat/hello-world.json")
         }

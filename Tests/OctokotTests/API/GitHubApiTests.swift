@@ -22,7 +22,7 @@ final class GitHubApiTests: XCTestCase {
             try await github.meta()
         } request: {
             $0.method = .GET
-            $0.path = "meta"
+            $0.path = "/meta"
         } response: {
             try Fixture("meta.json")
         }
@@ -33,7 +33,7 @@ final class GitHubApiTests: XCTestCase {
             try await github.emojis()
         } request: {
             $0.method = .GET
-            $0.path = "emojis"
+            $0.path = "/emojis"
         } response: {
             try Fixture(value: [
                 "atom": "https://github.githubassets.com/images/icons/emoji/atom.png?v8",
