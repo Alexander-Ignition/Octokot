@@ -42,4 +42,15 @@ final class GitHubApiTests: XCTestCase {
             ])
         }
     }
+
+    func testZen() async throws {
+        await assertApi { github in
+            try await github.zen()
+        } request: {
+            $0.method = .GET
+            $0.path = "/zen"
+        } response: {
+            try Fixture(string: "Avoid administrative distraction.")
+        }
+    }
 }

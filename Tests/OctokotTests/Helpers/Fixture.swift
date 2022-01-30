@@ -30,6 +30,14 @@ extension Fixture where Value: Encodable {
     }
 }
 
+extension Fixture where Value == String {
+    init(string: Value) throws {
+        let data = Data(string.utf8)
+        self.response = GHResponse(status: 200, data: data)
+        self.value = string
+    }
+}
+
 extension Fixture {
     func header(_ name: String, _ value: String) -> Fixture<Value> {
         var copy = self
