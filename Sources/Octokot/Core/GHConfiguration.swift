@@ -23,4 +23,23 @@ public struct GHConfiguration {
         self.url = url
         self.headers = headers
     }
+
+    /// Set a personal access token.
+    ///
+    /// [Creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+    ///
+    /// - Parameter token: a personal access token.
+    public mutating func setAccessToken(_ token: String) {
+        let base64 = Data(token.utf8).base64EncodedString()
+        setAccessToken(base64: base64)
+    }
+
+    /// Set a personal access token.
+    ///
+    /// [Creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+    ///
+    /// - Parameter token: base64 encoded string.
+    public mutating func setAccessToken(base64 token: String) {
+        headers["Authorization"] = "Basic \(token)"
+    }
 }
