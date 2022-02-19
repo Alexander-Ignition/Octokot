@@ -10,6 +10,7 @@ on:
       - 'Tests/**'
       - '.github/workflows/**'
       - 'Package.swift'
+      - 'Makefile'
   pull_request:
     branches:
       - '**'
@@ -18,6 +19,7 @@ on:
       - 'Tests/**'
       - '.github/workflows/**'
       - 'Package.swift'
+      - 'Makefile'
 
 jobs:
   Apple:

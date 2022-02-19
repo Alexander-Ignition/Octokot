@@ -1,13 +1,15 @@
-XCODEBUILD_TEST = xcodebuild clean test -scheme Octokot
+XCODEBUILD_TEST = xcodebuild clean test -scheme Octokot -destination
 
 test-macos:
-	$(XCODEBUILD_TEST) -destination 'platform=macOS'
+	$(XCODEBUILD_TEST) 'platform=macOS'
 
 test-ios:
-	$(XCODEBUILD_TEST) -destination 'platform=iOS Simulator,name=iPhone 13'
+	$(XCODEBUILD_TEST) 'platform=iOS Simulator,name=iPhone 13'
 
 test-tvos:
-	$(XCODEBUILD_TEST) -destination 'platform=tvOS Simulator,name=Apple TV 4K'
+	$(XCODEBUILD_TEST) 'platform=tvOS Simulator,name=Apple TV'
 
 test-watchos:
-	$(XCODEBUILD_TEST) -destination 'platform=watchOS Simulator,name=Apple Watch Series 7 - 45mm'
+	$(XCODEBUILD_TEST) 'platform=watchOS Simulator,name=Apple Watch Series 7 - 45mm'
+
+test: test-macos test-ios test-tvos test-watchos
