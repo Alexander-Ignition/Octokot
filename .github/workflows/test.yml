@@ -10,6 +10,7 @@ on:
       - 'Tests/**'
       - '.github/workflows/**'
       - 'Package.swift'
+      - 'Makefile'
   pull_request:
     branches:
       - '**'
@@ -18,40 +19,30 @@ on:
       - 'Tests/**'
       - '.github/workflows/**'
       - 'Package.swift'
+      - 'Makefile'
 
 jobs:
-  macOS:
-    name: Test macOS
+  Apple:
+    name: Test ${{ matrix.name }}
     runs-on: macOS-latest
-    env:
-        DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS
+            target: test-macos
+          - name: iOS
+            target: test-ios
+          - name: tvOS
+            target: test-tvos
+          - name: watchOS
+            target: test-watchos
     steps:
-      - uses: actions/checkout@v2
-      - run: make test-macos
-  iOS:
-    name: Test iOS
-    runs-on: macOS-latest
-    env:
-        DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - uses: actions/checkout@v2
-      - run: make test-ios
-  tvOS:
-    name: Test tvOS
-    runs-on: macOS-latest
-    env:
-        DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - uses: actions/checkout@v2
-      - run: make test-tvos
-  watchOS:
-    name: Test watchOS
-    runs-on: macOS-latest
-    env:
-        DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - uses: actions/checkout@v2
-      - run: make test-watchos
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and test
+        run: make ${{ matrix.target }}
+        shell: bash
   Linux:
     name: Test Linux
     runs-on: ubuntu-20.04
@@ -60,14 +51,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: swift test
-  # SPM:
-  #   name: Test with SPM
-  #   runs-on: macOS-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Install xcaudit
-  #       uses: Alexander-Ignition/XCAudit@main
-  #     - name: Build and test
-  #       run: swift test --enable-code-coverage 2>&1 | xcaudit
-  #       shell: bash
+  SPM:
+    name: Test with SPM
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install xcaudit
+        uses: Alexander-Ignition/XCAudit@main
+      - name: Build and test
+        run: swift test --enable-code-coverage 2>&1 | xcaudit
+        shell: bash
