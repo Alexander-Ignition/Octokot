@@ -28,18 +28,18 @@ jobs:
       matrix:
         include:
           - name: macOS
-            destination: "platform=macOS"
+            target: test-macos
           - name: iOS
-            destination: "platform=iOS Simulator,name=iPhone 13"
+            target: test-ios
           - name: tvOS
-            destination: "platform=tvOS Simulator,name=Apple TV 4K"
+            target: test-tvos
           - name: watchOS
-            destination: "platform=watchOS Simulator,name=Apple Watch Series 7 - 45mm"
+            target: test-watchos
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build and test
-        run: xcodebuild clean test -scheme Octokot -destination '${{ matrix.destination }}'
+        run: make ${{ matrix.target }}
         shell: bash
   Linux:
     name: Test Linux
