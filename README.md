@@ -59,7 +59,7 @@ configuration.setAccessToken("<personal_access_token>")
 
 let github = GitHubAPI(configuration: configuration)
 
-let user = try await api.user()
+let user = try await github.user()
 ```
 
 Personal Access Token can be in base 64 encoded strings for this case there is a second method in the configuration.
