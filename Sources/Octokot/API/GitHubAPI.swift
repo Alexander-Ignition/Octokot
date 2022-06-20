@@ -1,26 +1,27 @@
 import Foundation
 
 public struct GitHubAPI: API {
-    public let client: GHClient
+    let context: APIContext
 
-    public init(configuration: GHConfiguration = .default) {
-        self.client = GHSession(configuration: configuration)
+    public init(client: GHClient, configuration: GHConfiguration = .default) {
+        self.context = APIContext(client: client, configuration: configuration)
     }
 
-    public init(client: GHClient) {
-        self.client = client
+    public init(configuration: GHConfiguration = .default) {
+        let session = GHSession(session: .shared)
+        self.init(client: session, configuration: configuration)
     }
 }
 
 extension GitHubAPI {
     /// The Users API allows to get public and private information about the authenticated user.
     public var user: AuthenticatedUserApi {
-        AuthenticatedUserApi(client: client)
+        AuthenticatedUserApi(context: context)
     }
 
     /// The Repos API allows to create, manage and control the workflow of public and private GitHub repositories.
     public var repos: ReposApi {
-        ReposApi(client: client)
+        ReposApi(context: context)
     }
 }
 
@@ -33,7 +34,7 @@ extension GitHubAPI {
     ///
     /// Get Hypermedia links to resources accessible in GitHub's REST API.
     public func callAsFunction() async throws -> [String: String] {
-        try await client.execute(client.configuration.request).decode()
+        try await context.client.execute(context.configuration.request).decode()
     }
 
     /// Get GitHub meta information.

@@ -5,20 +5,20 @@ import Foundation
 /// The Repos API allows to create, manage and control the workflow of public and private GitHub repositories.
 @dynamicMemberLookup
 public struct ReposApi: API {
-    let client: GHClient
+    let context: APIContext
 
     public subscript(dynamicMember owner: String) -> RepoOwnerApi {
         self[owner]
     }
 
     public subscript(owner: String) -> RepoOwnerApi {
-        RepoOwnerApi(client: client, owner: owner)
+        RepoOwnerApi(context: context, owner: owner)
     }
 }
 
 @dynamicMemberLookup
 public struct RepoOwnerApi: API {
-    let client: GHClient
+    let context: APIContext
     let owner: String
 
     public subscript(dynamicMember repo: String) -> RepoApi {
@@ -26,12 +26,12 @@ public struct RepoOwnerApi: API {
     }
 
     public subscript(repo: String) -> RepoApi {
-        RepoApi(client: client, owner: owner, repo: repo)
+        RepoApi(context: context, owner: owner, repo: repo)
     }
 }
 
 public struct RepoApi: API {
-    let client: GHClient
+    let context: APIContext
     let owner: String
     let repo: String
 
