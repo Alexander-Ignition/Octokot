@@ -115,7 +115,7 @@ final class PaginationTests: XCTestCase {
     }
 }
 
-fileprivate struct NumbersApi: Api {
+fileprivate struct NumbersApi: API {
     let client: GHClient
 
     func numbers(page: Int) async throws -> Pagination<Int> {

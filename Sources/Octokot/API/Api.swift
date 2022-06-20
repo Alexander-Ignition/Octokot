@@ -1,8 +1,8 @@
-protocol Api {
+protocol API {
     var client: GHClient { get }
 }
 
-extension Api {
+extension API {
     func execute(
         _ build: (inout GHRequest) throws -> Void
     ) async throws -> GHResponse {

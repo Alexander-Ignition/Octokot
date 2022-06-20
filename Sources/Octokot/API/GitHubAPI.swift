@@ -1,6 +1,6 @@
 import Foundation
 
-public struct GitHubAPI: Api {
+public struct GitHubAPI: API {
     public let client: GHClient
 
     public init(configuration: GHConfiguration = .default) {

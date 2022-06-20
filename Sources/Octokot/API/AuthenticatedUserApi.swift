@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AuthenticatedUserApi: Api {
+public struct AuthenticatedUserApi: API {
     let client: GHClient
 
     /// Get the authenticated user.
