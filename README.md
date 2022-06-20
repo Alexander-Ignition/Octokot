@@ -43,7 +43,7 @@ let repo = try await github.repos.apple.swift()
 ... or you can use them via `subscript`.
 
 ```swift
-let repo = try await github.repos["server-swift"]["async-http"]()
+let repo = try await github.repos["server-swift"]["async-http-client"]()
 ```
 
 ## Authentication
