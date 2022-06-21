@@ -20,4 +20,14 @@ extension API {
         try build(&request)
         return try await context.client.execute(request)
     }
+
+    func execute(
+        _ method: GHRequest.Method,
+        _ path: String
+    ) async throws -> GHResponse {
+        var request = self.context.configuration.request
+        request.method = method
+        request.path = path
+        return try await context.client.execute(request)
+    }
 }

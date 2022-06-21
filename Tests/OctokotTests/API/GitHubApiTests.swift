@@ -19,7 +19,7 @@ final class GitHubApiTests: XCTestCase {
 
     func testMeta() async throws {
         await assertApi { github in
-            try await github.meta()
+            try await github.meta
         } request: {
             $0.method = .GET
             $0.path = "/meta"
@@ -30,7 +30,7 @@ final class GitHubApiTests: XCTestCase {
 
     func testEmojis() async throws {
         await assertApi { github in
-            try await github.emojis()
+            try await github.emojis
         } request: {
             $0.method = .GET
             $0.path = "/emojis"
@@ -45,7 +45,7 @@ final class GitHubApiTests: XCTestCase {
 
     func testZen() async throws {
         await assertApi { github in
-            try await github.zen()
+            try await github.zen
         } request: {
             $0.method = .GET
             $0.path = "/zen"

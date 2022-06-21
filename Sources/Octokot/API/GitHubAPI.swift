@@ -75,8 +75,6 @@ extension GitHubAPI {
 extension GitHubAPI {
     /// GitHub API Root.
     ///
-    ///     GET /
-    ///
     /// Get Hypermedia links to resources accessible in GitHub's REST API.
     public func callAsFunction() async throws -> [String: String] {
         try await context.client.execute(context.configuration.request).decode()
@@ -84,16 +82,21 @@ extension GitHubAPI {
 
     /// Get GitHub meta information.
     ///
-    ///     GET /meta
-    ///
     /// - Note: The IP addresses shown in the documentation's response are only example values.
     ///         You must always query the API directly to get the latest list of IP addresses.
     /// - Returns: meta information about GitHub, including a list of GitHub's IP addresses.
     ///            For more information, see "About GitHub's IP addresses."
-    public func meta() async throws -> Meta {
-        try await execute {
-            $0.path = "/meta"
-        }.decode()
+    public var meta: Meta {
+        get async throws {
+            try await execute(.GET, "/meta").decode()
+        }
+    }
+
+    /// Get a random sentence from the Zen of GitHub.
+    public var zen: String {
+        get async throws {
+            try await execute(.GET, "/zen").string
+        }
     }
 }
 
@@ -102,18 +105,10 @@ extension GitHubAPI {
 extension GitHubAPI {
     /// Get emojis.
     ///
-    ///     GET /emojis
-    ///
     /// Lists all the emojis available to use on GitHub.
-    public func emojis() async throws -> [String: String] {
-        try await execute {
-            $0.path = "/emojis"
-        }.decode()
-    }
-
-    public func zen() async throws -> String {
-        try await execute {
-            $0.path = "/zen"
-        }.string
+    public var emojis: [String: String] {
+        get async throws  {
+            try await execute(.GET, "/emojis").decode()
+        }
     }
 }
