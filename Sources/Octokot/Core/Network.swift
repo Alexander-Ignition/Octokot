@@ -1,10 +1,23 @@
 import Foundation
 
+#if os(iOS) || os(macOS) || os(watchOS) || os(tvOS) || canImport(FoundationNetworking)
+
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-final class SessionClient: GHClient {
+extension GitHubAPI {
+    public init(configuration: GHConfiguration = .default) {
+        self.init(session: .shared, configuration: configuration)
+    }
+
+    public init(session: URLSession, configuration: GHConfiguration = .default) {
+        let client = NetworkClient(session: session)
+        self.init(client: client, configuration: configuration)
+    }
+}
+
+private final class NetworkClient: GHClient {
     private let session: URLSession
 
     init(session: URLSession) {
@@ -79,3 +92,5 @@ extension GHResponse {
         self.init(status: status, headers: headers, data: data)
     }
 }
+
+#endif
