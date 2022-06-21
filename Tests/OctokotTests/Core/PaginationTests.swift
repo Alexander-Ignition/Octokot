@@ -23,7 +23,7 @@ final class PaginationTests: XCTestCase {
         super.setUp()
         precondition(paths.count == paths.count)
 
-        let configuration = GHConfiguration.default
+        let configuration = GitHubAPI.Configuration.default
         let baseURL = configuration.url
         let urls: [URL] = paths.map { path in
             URL(string: path, relativeTo: baseURL)!.absoluteURL

@@ -54,8 +54,8 @@ let repo = try await github.repos["server-swift"]["async-http-client"]()
 after which you can set it in the configuration and use the methods for which authentication is required.
 
 ```swift
-var configuration = GHConfiguration.default
-configuration.setAccessToken("<personal_access_token>")
+var configuration = GitHubAPI.Configuration.default
+configuration.accessToken = .string("<personal_access_token>")
 
 let github = GitHubAPI(configuration: configuration)
 
@@ -65,5 +65,5 @@ let user = try await github.user()
 Personal Access Token can be in base 64 encoded strings for this case there is a second method in the configuration.
 
 ```swift
-configuration.setAccessToken(base64: "<base64_encoded_personal_access_token>")
+configuration.accessToken = .base64EncodedString("<base64_encoded_personal_access_token>")
 ```

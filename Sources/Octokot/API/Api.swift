@@ -1,8 +1,8 @@
 final class APIContext {
     let client: GHClient
-    let configuration: GHConfiguration
+    let configuration: GitHubAPI.Configuration
 
-    init(client: GHClient, configuration: GHConfiguration) {
+    init(client: GHClient, configuration: GitHubAPI.Configuration) {
         self.client = client
         self.configuration = configuration
     }

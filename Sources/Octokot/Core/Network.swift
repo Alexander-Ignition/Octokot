@@ -7,11 +7,11 @@ import FoundationNetworking
 #endif
 
 extension GitHubAPI {
-    public init(configuration: GHConfiguration = .default) {
+    public init(configuration: Configuration = .default) {
         self.init(session: .shared, configuration: configuration)
     }
 
-    public init(session: URLSession, configuration: GHConfiguration = .default) {
+    public init(session: URLSession, configuration: Configuration = .default) {
         let client = NetworkClient(session: session)
         self.init(client: client, configuration: configuration)
     }
