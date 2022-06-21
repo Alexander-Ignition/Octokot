@@ -53,7 +53,8 @@ final class SessionClient: GHClient {
 // MARK: - GHRequest + URLRequest
 
 extension GHRequest {
-    fileprivate func makeRequest() -> URLRequest {
+    /// - Note: `internal` for testing
+    func makeRequest() -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
