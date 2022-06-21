@@ -4,14 +4,14 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public final class GHSession: GHClient {
-    public let session: URLSession
+final class SessionClient: GHClient {
+    private let session: URLSession
 
-    public init(session: URLSession) {
+    init(session: URLSession) {
         self.session = session
     }
 
-    public func execute(_ request: GHRequest) async throws -> GHResponse {
+    func execute(_ request: GHRequest) async throws -> GHResponse {
         let urlRequest = request.makeRequest()
         let (data, urlResponse) = try await dataResponse(for: urlRequest)
         let response = GHResponse(urlResponse: urlResponse, data: data)
@@ -53,7 +53,7 @@ public final class GHSession: GHClient {
 // MARK: - GHRequest + URLRequest
 
 extension GHRequest {
-    func makeRequest() -> URLRequest {
+    fileprivate func makeRequest() -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
