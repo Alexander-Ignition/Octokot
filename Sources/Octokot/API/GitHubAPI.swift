@@ -3,15 +3,6 @@ import Foundation
 public struct GitHubAPI: API {
     let context: APIContext
 
-    public init(configuration: GHConfiguration = .default) {
-        self.init(session: .shared, configuration: configuration)
-    }
-
-    public init(session: URLSession, configuration: GHConfiguration = .default) {
-        let client = SessionClient(session: session)
-        self.init(client: client, configuration: configuration)
-    }
-
     public init(client: GHClient, configuration: GHConfiguration = .default) {
         self.context = APIContext(client: client, configuration: configuration)
     }
