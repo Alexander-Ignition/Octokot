@@ -6,9 +6,9 @@ public struct Repository: Codable, Equatable {
     public var name: String
     public var fullName: String?
     public var owner: Organization?
-    public var repositoryPrivate: Bool
+    public var `private`: Bool
     public var htmlUrl: String?
-    public var repositoryDescription: String?
+    public var description: String?
     public var fork: Bool
     public var url: String
     public var archiveUrl: String?
@@ -90,98 +90,6 @@ public struct Repository: Codable, Equatable {
     public var organization: Organization?
     public var parent: Parent?
     public var source: Parent?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case nodeId = "node_id"
-        case name = "name"
-        case fullName = "full_name"
-        case owner = "owner"
-        case repositoryPrivate = "private"
-        case htmlUrl = "html_url"
-        case repositoryDescription = "description"
-        case fork = "fork"
-        case url = "url"
-        case archiveUrl = "archive_url"
-        case assigneesUrl = "assignees_url"
-        case blobsUrl = "blobs_url"
-        case branchesUrl = "branches_url"
-        case collaboratorsUrl = "collaborators_url"
-        case commentsUrl = "comments_url"
-        case commitsUrl = "commits_url"
-        case compareUrl = "compare_url"
-        case contentsUrl = "contents_url"
-        case contributorsUrl = "contributors_url"
-        case deploymentsUrl = "deployments_url"
-        case downloadsUrl = "downloads_url"
-        case eventsUrl = "events_url"
-        case forksUrl = "forks_url"
-        case gitCommitsUrl = "git_commits_url"
-        case gitRefsUrl = "git_refs_url"
-        case gitTagsUrl = "git_tags_url"
-        case gitUrl = "git_url"
-        case issueCommentUrl = "issue_comment_url"
-        case issueEventsUrl = "issue_events_url"
-        case issuesUrl = "issues_url"
-        case keysUrl = "keys_url"
-        case labelsUrl = "labels_url"
-        case languagesUrl = "languages_url"
-        case mergesUrl = "merges_url"
-        case milestonesUrl = "milestones_url"
-        case notificationsUrl = "notifications_url"
-        case pullsUrl = "pulls_url"
-        case releasesUrl = "releases_url"
-        case sshUrl = "ssh_url"
-        case stargazersUrl = "stargazers_url"
-        case statusesUrl = "statuses_url"
-        case subscribersUrl = "subscribers_url"
-        case subscriptionUrl = "subscription_url"
-        case tagsUrl = "tags_url"
-        case teamsUrl = "teams_url"
-        case treesUrl = "trees_url"
-        case cloneUrl = "clone_url"
-        case mirrorUrl = "mirror_url"
-        case hooksUrl = "hooks_url"
-        case svnUrl = "svn_url"
-        case homepage = "homepage"
-        case language = "language"
-        case forksCount = "forks_count"
-        case forks = "forks"
-        case stargazersCount = "stargazers_count"
-        case watchersCount = "watchers_count"
-        case watchers = "watchers"
-        case size = "size"
-        case defaultBranch = "default_branch"
-        case openIssuesCount = "open_issues_count"
-        case openIssues = "open_issues"
-        case isTemplate = "is_template"
-        case topics = "topics"
-        case hasIssues = "has_issues"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case hasPages = "has_pages"
-        case hasDownloads = "has_downloads"
-        case archived = "archived"
-        case disabled = "disabled"
-        case visibility = "visibility"
-        case pushedAt = "pushed_at"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case permissions = "permissions"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case templateRepository = "template_repository"
-        case tempCloneToken = "temp_clone_token"
-        case allowSquashMerge = "allow_squash_merge"
-        case allowAutoMerge = "allow_auto_merge"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case allowMergeCommit = "allow_merge_commit"
-        case subscribersCount = "subscribers_count"
-        case networkCount = "network_count"
-        case license = "license"
-        case organization = "organization"
-        case parent = "parent"
-        case source = "source"
-    }
 }
 
 extension Repository {
@@ -192,15 +100,6 @@ extension Repository {
         public var url: String
         public var nodeId: String
         public var htmlUrl: String?
-
-        enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case name = "name"
-            case spdxId = "spdx_id"
-            case url = "url"
-            case nodeId = "node_id"
-            case htmlUrl = "html_url"
-        }
 
         public init(
             key: String,
@@ -238,27 +137,6 @@ extension Repository {
         public var receivedEventsUrl: String?
         public var type: String?
         public var siteAdmin: Bool?
-
-        enum CodingKeys: String, CodingKey {
-            case login = "login"
-            case id = "id"
-            case nodeId = "node_id"
-            case avatarUrl = "avatar_url"
-            case gravatarId = "gravatar_id"
-            case url = "url"
-            case htmlUrl = "html_url"
-            case followersUrl = "followers_url"
-            case followingUrl = "following_url"
-            case gistsUrl = "gists_url"
-            case starredUrl = "starred_url"
-            case subscriptionsUrl = "subscriptions_url"
-            case organizationsUrl = "organizations_url"
-            case reposUrl = "repos_url"
-            case eventsUrl = "events_url"
-            case receivedEventsUrl = "received_events_url"
-            case type = "type"
-            case siteAdmin = "site_admin"
-        }
 
         public init(
             login: String,
@@ -387,106 +265,12 @@ extension Repository {
         public var forks: Int?
         public var openIssues: Int?
         public var watchers: Int?
-
-        enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case nodeId = "node_id"
-            case name = "name"
-            case fullName = "full_name"
-            case owner = "owner"
-            case parentPrivate = "private"
-            case htmlUrl = "html_url"
-            case parentDescription = "description"
-            case fork = "fork"
-            case url = "url"
-            case archiveUrl = "archive_url"
-            case assigneesUrl = "assignees_url"
-            case blobsUrl = "blobs_url"
-            case branchesUrl = "branches_url"
-            case collaboratorsUrl = "collaborators_url"
-            case commentsUrl = "comments_url"
-            case commitsUrl = "commits_url"
-            case compareUrl = "compare_url"
-            case contentsUrl = "contents_url"
-            case contributorsUrl = "contributors_url"
-            case deploymentsUrl = "deployments_url"
-            case downloadsUrl = "downloads_url"
-            case eventsUrl = "events_url"
-            case forksUrl = "forks_url"
-            case gitCommitsUrl = "git_commits_url"
-            case gitRefsUrl = "git_refs_url"
-            case gitTagsUrl = "git_tags_url"
-            case gitUrl = "git_url"
-            case issueCommentUrl = "issue_comment_url"
-            case issueEventsUrl = "issue_events_url"
-            case issuesUrl = "issues_url"
-            case keysUrl = "keys_url"
-            case labelsUrl = "labels_url"
-            case languagesUrl = "languages_url"
-            case mergesUrl = "merges_url"
-            case milestonesUrl = "milestones_url"
-            case notificationsUrl = "notifications_url"
-            case pullsUrl = "pulls_url"
-            case releasesUrl = "releases_url"
-            case sshUrl = "ssh_url"
-            case stargazersUrl = "stargazers_url"
-            case statusesUrl = "statuses_url"
-            case subscribersUrl = "subscribers_url"
-            case subscriptionUrl = "subscription_url"
-            case tagsUrl = "tags_url"
-            case teamsUrl = "teams_url"
-            case treesUrl = "trees_url"
-            case cloneUrl = "clone_url"
-            case mirrorUrl = "mirror_url"
-            case hooksUrl = "hooks_url"
-            case svnUrl = "svn_url"
-            case homepage = "homepage"
-            case language = "language"
-            case forksCount = "forks_count"
-            case stargazersCount = "stargazers_count"
-            case watchersCount = "watchers_count"
-            case size = "size"
-            case defaultBranch = "default_branch"
-            case openIssuesCount = "open_issues_count"
-            case isTemplate = "is_template"
-            case topics = "topics"
-            case hasIssues = "has_issues"
-            case hasProjects = "has_projects"
-            case hasWiki = "has_wiki"
-            case hasPages = "has_pages"
-            case hasDownloads = "has_downloads"
-            case archived = "archived"
-            case disabled = "disabled"
-            case visibility = "visibility"
-            case pushedAt = "pushed_at"
-            case createdAt = "created_at"
-            case updatedAt = "updated_at"
-            case permissions = "permissions"
-            case allowRebaseMerge = "allow_rebase_merge"
-            case tempCloneToken = "temp_clone_token"
-            case allowSquashMerge = "allow_squash_merge"
-            case allowAutoMerge = "allow_auto_merge"
-            case deleteBranchOnMerge = "delete_branch_on_merge"
-            case allowMergeCommit = "allow_merge_commit"
-            case subscribersCount = "subscribers_count"
-            case networkCount = "network_count"
-            case license = "license"
-            case forks = "forks"
-            case openIssues = "open_issues"
-            case watchers = "watchers"
-        }
     }
 
     public struct Permissions: Codable, Equatable {
         public var pull: Bool
         public var push: Bool
         public var admin: Bool
-
-        enum CodingKeys: String, CodingKey {
-            case pull = "pull"
-            case push = "push"
-            case admin = "admin"
-        }
 
         public init(pull: Bool, push: Bool, admin: Bool) {
             self.pull = pull

@@ -19,7 +19,7 @@ func assertApi<T>(
     response: () throws -> Fixture<T>,
     file: StaticString = #filePath,
     line: UInt = #line
-) async where T: Codable & Equatable {
+) async where T: Equatable {
     do {
         let client = ClientMock()
         let configuration = GitHubAPI.Configuration.default
