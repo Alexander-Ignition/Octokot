@@ -13,10 +13,9 @@ struct Fixture<Value>: Equatable where Value: Equatable {
 extension Fixture where Value: Decodable {
     init(_ path: String) throws {
         let data = try Resources.shared.data("Fixtures/\(path)")
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        self.value = try decoder.decode(Value.self, from: data)
-        self.response = GHResponse(status: 200, data: data)
+        let response = GHResponse(status: 200, data: data)
+        self.value = try XCTUnwrap(try response.decode(Value.self))
+        self.response = response
     }
 }
 

@@ -1,13 +1,33 @@
-protocol Api {
-    var client: GHClient { get }
+final class APIContext {
+    let client: GHClient
+    let configuration: GitHubAPI.Configuration
+
+    init(client: GHClient, configuration: GitHubAPI.Configuration) {
+        self.client = client
+        self.configuration = configuration
+    }
 }
 
-extension Api {
+protocol API {
+    var context: APIContext { get }
+}
+
+extension API {
     func execute(
         _ build: (inout GHRequest) throws -> Void
     ) async throws -> GHResponse {
-        var request = self.client.configuration.request
+        var request = self.context.configuration.request
         try build(&request)
-        return try await client.execute(request)
+        return try await context.client.execute(request)
+    }
+
+    func execute(
+        _ method: GHRequest.Method,
+        _ path: String
+    ) async throws -> GHResponse {
+        var request = self.context.configuration.request
+        request.method = method
+        request.path = path
+        return try await context.client.execute(request)
     }
 }

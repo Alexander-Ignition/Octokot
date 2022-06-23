@@ -1,25 +1,30 @@
 import Foundation
 
+#if os(iOS) || os(macOS) || os(watchOS) || os(tvOS) || canImport(FoundationNetworking)
+
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-public final class GHSession: GHClient {
-    public let session: URLSession
-    public let configuration: GHConfiguration
+extension GitHubAPI {
+    public init(configuration: Configuration = .default) {
+        self.init(session: .shared, configuration: configuration)
+    }
 
-    public init(session: URLSession, configuration: GHConfiguration) {
+    public init(session: URLSession, configuration: Configuration = .default) {
+        let client = NetworkClient(session: session)
+        self.init(client: client, configuration: configuration)
+    }
+}
+
+private final class NetworkClient: GHClient {
+    private let session: URLSession
+
+    init(session: URLSession) {
         self.session = session
-        self.configuration = configuration
     }
 
-    public convenience init(configuration: GHConfiguration) {
-        let session = URLSession(configuration: .default)
-        session.sessionDescription = "GitHub"
-        self.init(session: session, configuration: configuration)
-    }
-
-    public func execute(_ request: GHRequest) async throws -> GHResponse {
+    func execute(_ request: GHRequest) async throws -> GHResponse {
         let urlRequest = request.makeRequest()
         let (data, urlResponse) = try await dataResponse(for: urlRequest)
         let response = GHResponse(urlResponse: urlResponse, data: data)
@@ -61,6 +66,7 @@ public final class GHSession: GHClient {
 // MARK: - GHRequest + URLRequest
 
 extension GHRequest {
+    /// - Note: `internal` for testing
     func makeRequest() -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
@@ -86,3 +92,5 @@ extension GHResponse {
         self.init(status: status, headers: headers, data: data)
     }
 }
+
+#endif

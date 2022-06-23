@@ -23,7 +23,7 @@ final class PaginationTests: XCTestCase {
         super.setUp()
         precondition(paths.count == paths.count)
 
-        let configuration = GHConfiguration.default
+        let configuration = GitHubAPI.Configuration.default
         let baseURL = configuration.url
         let urls: [URL] = paths.map { path in
             URL(string: path, relativeTo: baseURL)!.absoluteURL
@@ -43,10 +43,11 @@ final class PaginationTests: XCTestCase {
             results[request] = .success(response)
         }
         client = ClientMock(results: results)
+        let context = APIContext(client: client, configuration: configuration)
         paginations = paths.indices.map { index in
-            Pagination(items: pages[index], links: links[index], client: client)
+            Pagination(context: context, items: pages[index], links: links[index])
         }
-        api = NumbersApi(client: client)
+        api = NumbersApi(context: context)
     }
 
     func testPagination() async throws {
@@ -111,12 +112,12 @@ final class PaginationTests: XCTestCase {
         }
         XCTAssertEqual(pagination1.items, pagination2.items, file: file, line: line)
         XCTAssertEqual(pagination1.links, pagination2.links, file: file, line: line)
-        XCTAssertTrue(pagination1.client === pagination2.client, file: file, line: line)
+        XCTAssertTrue(pagination1.context === pagination2.context, file: file, line: line)
     }
 }
 
-fileprivate struct NumbersApi: Api {
-    let client: GHClient
+fileprivate struct NumbersApi: API {
+    let context: APIContext
 
     func numbers(page: Int) async throws -> Pagination<Int> {
         try await pagination {

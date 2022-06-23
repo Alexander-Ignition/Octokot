@@ -1,9 +1,9 @@
 import Foundation
 
-public struct Pagination<Item>: Api where Item: Decodable {
+public struct Pagination<Item>: API where Item: Decodable {
+    let context: APIContext
     public let items: [Item]
     public let links: PaginationLinks?
-    let client: GHClient
 }
 
 // MARK: - Pagination + Links
@@ -70,15 +70,15 @@ extension Pagination: AsyncSequence {
     }
 }
 
-// MARK: - Api + Pagination
+// MARK: - API + Pagination
 
-extension Api {
+extension API {
     func pagination<T>(
         _ build: (inout GHRequest) throws -> Void
     ) async throws -> Pagination<T> where T: Decodable {
         let response = try await execute(build)
         let items = try response.decode([T].self)
         let links = response.headers["Link"].map { PaginationLinks(string: $0) }
-        return Pagination(items: items, links: links, client: client)
+        return Pagination(context: context, items: items, links: links)
     }
 }

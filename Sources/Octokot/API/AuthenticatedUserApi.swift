@@ -1,7 +1,7 @@
 import Foundation
 
-public struct AuthenticatedUserApi: Api {
-    let client: GHClient
+public struct AuthenticatedUserApi: API {
+    let context: APIContext
 
     /// Get the authenticated user.
     ///

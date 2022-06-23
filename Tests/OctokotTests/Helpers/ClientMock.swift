@@ -2,8 +2,6 @@ import Foundation
 @testable import Octokot
 
 final actor ClientMock: GHClient {
-    let configuration: GHConfiguration = .default
-
     private var results: [GHRequest: Result<GHResponse, Error>]
     private(set) var requestsCount: Int = 0
 
