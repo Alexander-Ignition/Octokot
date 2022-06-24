@@ -13,8 +13,6 @@ public struct AuthenticatedUserApi: API {
     ///
     /// - Returns: the authenticated user.
     public func callAsFunction() async throws -> User {
-        try await execute {
-            $0.path = "/user"
-        }.decode()
+        try await execute(.GET, "/user").decode()
     }
 }

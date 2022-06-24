@@ -8,7 +8,7 @@ final class AuthenticatedUserApiTests: XCTestCase {
             try await github.user()
         } request: {
             $0.method = .GET
-            $0.path = "/user"
+            $0.appendPath("/user")
         } response: {
             try Fixture("user/get.json")
         }

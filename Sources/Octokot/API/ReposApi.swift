@@ -37,9 +37,6 @@ public struct RepoApi: API {
 
     /// Get a repository.
     public func callAsFunction() async throws -> Repository {
-        try await execute {
-            $0.method = .GET
-            $0.path = "/repos/\(owner)/\(repo)"
-        }.decode()
+        try await execute(.GET, "/repos/\(owner)/\(repo)").decode()
     }
 }

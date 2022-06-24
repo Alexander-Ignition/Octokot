@@ -27,7 +27,7 @@ extension API {
     ) async throws -> GHResponse {
         var request = self.context.configuration.request
         request.method = method
-        request.path = path
+        request.appendPath(path)
         return try await context.client.execute(request)
     }
 }

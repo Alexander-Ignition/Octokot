@@ -121,8 +121,8 @@ fileprivate struct NumbersApi: API {
 
     func numbers(page: Int) async throws -> Pagination<Int> {
         try await pagination {
-            $0.path = "numbers"
-            try $0.encode(queryItems: [URLQueryItem(name: "page", value: "\(page)")])
+            $0.appendPath("numbers")
+            $0.queryItems = [URLQueryItem(name: "page", value: "\(page)")]
         }
     }
 }

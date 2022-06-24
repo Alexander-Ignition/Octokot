@@ -33,14 +33,39 @@ public struct GHRequest: Hashable {
         self.headers = headers
         self.body = body
     }
+}
 
-    public var path: String {
+// MARK: - URL Components
+
+extension GHRequest {
+    public mutating func appendPath(_ path: String) {
+        url.appendPathComponent(path)
+    }
+
+    public var queryItems: [URLQueryItem] {
         get {
-            url.path
+            return urlComponents?.queryItems ?? []
         }
         set {
-            url.appendPathComponent(newValue)
+            guard !newValue.isEmpty else {
+                return
+            }
+            guard var components = urlComponents else {
+                return
+            }
+            var items = components.queryItems ?? []
+            items.append(contentsOf: newValue)
+            components.queryItems = items
+
+            guard let url = components.url else {
+                return
+            }
+            self.url = url
         }
+    }
+
+    private var urlComponents: URLComponents? {
+        URLComponents(url: url, resolvingAgainstBaseURL: true)
     }
 }
 
@@ -55,46 +80,5 @@ extension GHRequest {
         set {
             headers["Content-Type"] = newValue
         }
-    }
-}
-
-// MARK: - Encoding
-
-extension GHRequest {
-
-    public mutating func encode(queryItems: [URLQueryItem]) throws {
-        try url.appendQueryItems(queryItems)
-    }
-
-    public mutating func encode<T>(body value: T) throws where T: Encodable {
-        let encoder = JSONEncoder()
-        body = try encoder.encode(value)
-    }
-}
-
-// MARK: - URL + URLQueryItem
-
-extension URL {
-    fileprivate mutating func appendQueryItems(_ queryItems: [URLQueryItem]) throws {
-        guard !queryItems.isEmpty else {
-            return
-        }
-        self = try self.appendingQuery(queryItems: queryItems)
-    }
-
-    private func appendingQuery(queryItems: [URLQueryItem]) throws -> URL {
-        guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
-            throw URLError(.badURL)
-        }
-        if var items = components.queryItems {
-            items.append(contentsOf: queryItems)
-            components.queryItems = items
-        } else {
-            components.queryItems = queryItems
-        }
-        guard let url = components.url else {
-            throw URLError(.badURL)
-        }
-        return url
     }
 }

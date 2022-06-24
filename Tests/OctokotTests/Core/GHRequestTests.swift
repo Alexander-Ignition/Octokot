@@ -16,8 +16,8 @@ final class GHRequestTests: XCTestCase {
 
     func testPath() {
         var request = GHRequest(url: url)
-        request.path = "/repos/alex ignition"
-        XCTAssertEqual(request.path, "/repos/alex ignition")
+        request.appendPath("/repos/alex ignition")
+        XCTAssertEqual(request.url.path, "/repos/alex ignition")
         XCTAssertEqual(request.url.absoluteString, "https://example.com/repos/alex%20ignition")
     }
 
@@ -28,12 +28,12 @@ final class GHRequestTests: XCTestCase {
         XCTAssertEqual(request.headers, ["X-Test": "T", "Content-Type": "any-type"])
     }
 
-    func testEncodeQueryItems() throws {
+    func testSetQueryItems() throws {
         var request = GHRequest(url: URL(string: "https://example.com?q=text")!)
-        try request.encode(queryItems: [
+        request.queryItems = [
             URLQueryItem(name: "private", value: nil),
             URLQueryItem(name: "ord", value: "des")
-        ])
+        ]
         XCTAssertEqual(request.url.absoluteString, "https://example.com?q=text&private&ord=des")
     }
 
